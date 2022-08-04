@@ -1,0 +1,84 @@
+/*
+  START - CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 16px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+#root {
+  isolation: isolate;
+  height: 100%;
+}
+
+/* END - CSS Reset */
+
+:root {
+  --color-primary: #1e213a;
+  --color-primary-dark: #100e1d;
+  --color-primary-light: #585676;
+  --white: #fff;
+  --black: #000;
+  --blue: #3c47e9;
+  --yellow: #ffec65;
+  --gray-100: #e7e7eb;
+  --gray-200: #a09fb1;
+  --gray-300: #6e707a;
+  --gray-400: rgba(110, 112, 122, 0.3);
+}
