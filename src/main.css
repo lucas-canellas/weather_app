@@ -3,6 +3,8 @@
   https://www.joshwcomeau.com/css/custom-css-reset/
 */
 
+@import url("https://use.typekit.net/iue2hut.css");
+
 *,
 *::before,
 *::after {
@@ -14,9 +16,10 @@
 }
 
 html {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: raleway, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
   font-size: 16px;
 }
 
@@ -81,4 +84,5 @@ button {
   --gray-200: #a09fb1;
   --gray-300: #6e707a;
   --gray-400: rgba(110, 112, 122, 0.3);
+  --gray-500: #88869d;
 }
