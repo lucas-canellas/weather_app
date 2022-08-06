@@ -1,14 +1,23 @@
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { useState } from "react";
 
 import imgTest from "../../assets/WeatherTemp.png";
+import { HeaderSectionModal } from "../HeaderSectionModal/HeaderSectionModal";
 import styles from "./HeaderSection.module.css";
 
 export const HeaderSection = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className={styles.header}>
       <div className={styles.search_location}>
-        <button className={styles.search}>Search for places</button>
+        <button
+          data-testid="open_modal"
+          className={styles.search}
+          onClick={() => setIsOpen(true)}
+        >
+          Search for places
+        </button>
         <button className={styles.location}>
           <GpsFixedIcon />
         </button>
@@ -27,6 +36,7 @@ export const HeaderSection = () => {
           <p>Helsinki</p>
         </div>
       </div>
+      <HeaderSectionModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };

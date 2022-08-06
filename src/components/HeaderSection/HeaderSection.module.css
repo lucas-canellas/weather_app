@@ -2,6 +2,7 @@
   background-color: var(--color-primary);
   text-align: center;
   padding-bottom: 100px;
+  width: 100%;
 }
 
 .search_location {
