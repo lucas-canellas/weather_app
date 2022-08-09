@@ -46,7 +46,7 @@
 }
 
 .icon {
-  font-size: 14px;
+  font-size: 14px !important;
 }
 
 .direction_text {

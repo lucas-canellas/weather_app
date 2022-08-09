@@ -2,13 +2,29 @@ import CloseIcon from "@mui/icons-material/Close";
 import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
+import { Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 
-import imgTest from "../../assets/WeatherTemp.png";
+import { convertUnixToDate } from "@/utils/generateDate";
+
 import styles from "./HeaderSection.module.css";
 
-export const HeaderSection = () => {
+interface IHeaderSectionProps {
+  data: any;
+  isFetching: boolean;
+  setCity: (city: string) => void;
+}
+
+export const HeaderSection = ({
+  data,
+  isFetching,
+  setCity,
+}: IHeaderSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [inputValue, setInputValue] = useState("");
+
+  const history: string[] = [];
 
   const opacity = isOpen ? 1 : 0;
   const pointerEvents = isOpen ? "auto" : "none";
@@ -26,6 +42,13 @@ export const HeaderSection = () => {
     };
   }, []);
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setCity(inputValue);
+    history.push(inputValue);
+    setIsOpen(false);
+  };
+
   return (
     <>
       <div className={styles.header}>
@@ -42,17 +65,29 @@ export const HeaderSection = () => {
           </button>
         </div>
         <div className={styles.bg_cloud}>
-          <img src={imgTest} alt="Test Temp" />
+          {isFetching ? (
+            <Skeleton />
+          ) : (
+            <img
+              src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`}
+              alt="Test Temp"
+            />
+          )}
         </div>
         <div className={styles.weather_info}>
           <p className={styles.degree}>
-            15<span>ºC</span>
+            {isFetching ? "??" : data.main.temp.toFixed(0)}
+            <span>ºC</span>
           </p>
-          <p className={styles.weather}>Shower</p>
-          <p className={styles.day}>Today • Fri, 5 Jun</p>
+          <p className={styles.weather}>
+            {isFetching ? "Loading" : data.weather[0].main}
+          </p>
+          <p className={styles.day}>
+            Today • {isFetching ? "Loading" : convertUnixToDate(data.dt)}
+          </p>
           <div className={styles.city}>
             <LocationOnIcon />
-            <p>Helsinki</p>
+            <p>{isFetching ? "Loading" : data.name}</p>
           </div>
         </div>
       </div>
@@ -76,16 +111,28 @@ export const HeaderSection = () => {
         >
           <CloseIcon />
         </button>
-        <div className={styles.search}>
-          <div className={styles.icon_input}>
-            <SearchIcon />
+        <form onSubmit={onSubmit}>
+          <div className={styles.search}>
+            <div className={styles.icon_input}>
+              <SearchIcon />
+            </div>
+            <input
+              className={styles.input_search}
+              type="text"
+              placeholder="search location"
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+            />
+            <button className={styles.btn_search}>Search</button>
           </div>
-          <input
-            className={styles.input_search}
-            type="text"
-            placeholder="search location"
-          />
-          <button className={styles.btn_search}>Search</button>
+        </form>
+
+        <div className={styles.items}>
+          {history.map(item => (
+            <div key={item} className={styles.item_history}>
+              <p>{item}</p>
+            </div>
+          ))}
         </div>
       </div>
     </>
