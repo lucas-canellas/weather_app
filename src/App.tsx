@@ -11,6 +11,8 @@ import { api } from "./services/api";
 
 export default function App() {
   const [city, setCity] = useState("itaborai");
+  const [history, setHistory] = useState<string[]>([]);
+
   const notify = () =>
     toast.error("City ​​not found", {
       position: "top-right",
@@ -29,6 +31,7 @@ export default function App() {
         const response = await api.get(
           `/weather?q=${city}&appid=${import.meta.env.VITE_KEY}&units=metric`
         );
+        setHistory([...history, response.data.name]);
         return response.data;
       } catch (error) {
         notify();
@@ -58,7 +61,12 @@ export default function App() {
     <>
       <main className={styles.main}>
         <ToastContainer />
-        <HeaderSection data={data} isFetching={isFetching} setCity={setCity} />
+        <HeaderSection
+          data={data}
+          isFetching={isFetching}
+          setCity={setCity}
+          history={history}
+        />
         <BodySection
           data={data}
           isFetching={isFetching}

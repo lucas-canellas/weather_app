@@ -13,18 +13,18 @@ interface IHeaderSectionProps {
   data: any;
   isFetching: boolean;
   setCity: (city: string) => void;
+  history: string[];
 }
 
 export const HeaderSection = ({
   data,
   isFetching,
   setCity,
+  history,
 }: IHeaderSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [inputValue, setInputValue] = useState("");
-
-  const history: string[] = [];
 
   const opacity = isOpen ? 1 : 0;
   const pointerEvents = isOpen ? "auto" : "none";
@@ -45,8 +45,8 @@ export const HeaderSection = ({
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setCity(inputValue);
-    history.push(inputValue);
     setIsOpen(false);
+    setInputValue("");
   };
 
   return (
@@ -128,11 +128,22 @@ export const HeaderSection = ({
         </form>
 
         <div className={styles.items}>
-          {history.map(item => (
-            <div key={item} className={styles.item_history}>
-              <p>{item}</p>
-            </div>
-          ))}
+          {history
+            .filter((item, index) => history.indexOf(item) === index)
+            .map((item, index) => (
+              <div
+                key={index}
+                role="button"
+                className={styles.item_history}
+                aria-hidden="true"
+                onClick={() => {
+                  setCity(item);
+                  setIsOpen(false);
+                }}
+              >
+                <p>{item}</p>
+              </div>
+            ))}
         </div>
       </div>
     </>
