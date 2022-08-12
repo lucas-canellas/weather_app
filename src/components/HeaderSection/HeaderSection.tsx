@@ -5,6 +5,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
 
+import { celsiusToFahrenheit } from "@/utils/convertTemp";
 import { convertUnixToDate } from "@/utils/generateDate";
 
 import styles from "./HeaderSection.module.css";
@@ -14,6 +15,7 @@ interface IHeaderSectionProps {
   isFetching: boolean;
   setCity: (city: string) => void;
   history: string[];
+  scale: string;
 }
 
 export const HeaderSection = ({
@@ -21,6 +23,7 @@ export const HeaderSection = ({
   isFetching,
   setCity,
   history,
+  scale,
 }: IHeaderSectionProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -75,10 +78,17 @@ export const HeaderSection = ({
           )}
         </div>
         <div className={styles.weather_info}>
-          <p className={styles.degree}>
-            {isFetching ? "??" : data.main.temp.toFixed(0)}
-            <span>ºC</span>
-          </p>
+          {isFetching ? (
+            "??"
+          ) : (
+            <p className={styles.degree}>
+              {scale === "C"
+                ? data.main.temp.toFixed(0)
+                : celsiusToFahrenheit(data.main.temp).toFixed()}
+              <span>º{scale}</span>
+            </p>
+          )}
+
           <p className={styles.weather}>
             {isFetching ? "Loading" : data.weather[0].main}
           </p>

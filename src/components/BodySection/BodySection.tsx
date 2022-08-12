@@ -13,6 +13,8 @@ interface IBodySectionProps {
   isFetching: boolean;
   days: any;
   isFetchingDays: boolean;
+  setScale: (scale: string) => void;
+  scale: string;
 }
 
 export const BodySection = ({
@@ -20,14 +22,16 @@ export const BodySection = ({
   isFetching,
   days,
   isFetchingDays,
+  setScale,
+  scale
 }: IBodySectionProps) => {
   return (
     <>
       <div className={styles.body}>
         <div className={styles.container}>
           <div className={styles.buttons}>
-            <button className={styles.celsius}>ºC</button>
-            <button className={styles.fahrenheit}>ºF</button>
+            <button className={styles.celsius} onClick={() => setScale("C")}>ºC</button>
+            <button className={styles.fahrenheit} onClick={() => setScale("F")}>ºF</button>
           </div>
           <div className={styles.cards}>
             {isFetchingDays
@@ -69,7 +73,7 @@ export const BodySection = ({
                 /></>
               : days.list
                 .filter((item: any) => item.dt_txt.includes("12:00:00"))
-                .map((item: any) => <Card key={item.dt} data={item} />)}
+                .map((item: any) => <Card key={item.dt} data={item} scale={scale} />)}
           </div>
 
           <h1 className={styles.title_highlight}>Today highlights</h1>

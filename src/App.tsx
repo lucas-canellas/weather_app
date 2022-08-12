@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import "react-toastify/dist/ReactToastify.css";
 
 import { useQuery } from "@tanstack/react-query";
@@ -10,8 +11,10 @@ import { HeaderSection } from "./components/HeaderSection/HeaderSection";
 import { api } from "./services/api";
 
 export default function App() {
-  const [city, setCity] = useState("itaborai");
+
+  const [city, setCity] = useState("London");
   const [history, setHistory] = useState<string[]>([]);
+  const [scale, setScale] = useState("c");
 
   const notify = () =>
     toast.error("City ​​not found", {
@@ -24,7 +27,7 @@ export default function App() {
       progress: undefined,
     });
 
-  const { data, isFetching } = useQuery(
+  const current = useQuery(
     ["weather", { city }],
     async () => {
       try {
@@ -32,6 +35,9 @@ export default function App() {
           `/weather?q=${city}&appid=${import.meta.env.VITE_KEY}&units=metric`
         );
         setHistory([...history, response.data.name]);
+
+
+
         return response.data;
       } catch (error) {
         notify();
@@ -43,7 +49,8 @@ export default function App() {
     }
   );
 
-  const { data: days, isFetching: isFetchingDays } = useQuery(
+
+  const days = useQuery(
     ["5-days", { city }],
     async () => {
       const response = await api.get(
@@ -53,7 +60,6 @@ export default function App() {
     },
     {
       refetchOnWindowFocus: false,
-      refetchOnMount: true,
     }
   );
 
@@ -62,16 +68,19 @@ export default function App() {
       <main className={styles.main}>
         <ToastContainer />
         <HeaderSection
-          data={data}
-          isFetching={isFetching}
+          data={current.data}
+          isFetching={current.isFetching}
           setCity={setCity}
           history={history}
+          scale={scale}
         />
         <BodySection
-          data={data}
-          isFetching={isFetching}
-          days={days}
-          isFetchingDays={isFetchingDays}
+          data={current.data}
+          isFetching={current.isFetching}
+          days={days.data}
+          isFetchingDays={days.isFetching}
+          setScale={setScale}
+          scale={scale}
         />
       </main>
     </>
